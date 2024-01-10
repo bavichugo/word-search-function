@@ -1,5 +1,7 @@
 import { onRequest } from "firebase-functions/v2/https";
 import { filterWords } from "./helper/wordsHelper";
+import express from "express";
+import cors from "cors";
 
 interface QueryParameters {
   letters?: string;
@@ -12,7 +14,15 @@ interface QueryParameters {
   language?: string;
 }
 
-export const getWords = onRequest(async (req, res) => {
+const corsOptions = {
+  origin: 'https://xwordsearch.netlify.app',
+  optionsSuccessStatus: 200,
+}
+
+const app = express();
+app.use(cors(corsOptions));
+
+app.get("/words", async (req, res) => {
   const query: QueryParameters = req.query as QueryParameters;
 
   const {
@@ -45,3 +55,5 @@ export const getWords = onRequest(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+export const api = onRequest(app);
