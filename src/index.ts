@@ -15,9 +15,9 @@ interface QueryParameters {
 }
 
 const corsOptions = {
-  origin: 'https://xwordsearch.netlify.app',
-  optionsSuccessStatus: 200,
-}
+  origin: "https://xwordsearch.netlify.app",
+  methods: "GET"
+};
 
 const app = express();
 app.use(cors(corsOptions));
